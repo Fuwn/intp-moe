@@ -1,12 +1,27 @@
-import { Router, error } from 'itty-router';
+import { Router, error, cors, ResponseHandler } from "itty-router";
 
-const router = Router();
+const logger: ResponseHandler = (response, request) => {
+  console.log(
+    response.status,
+    request.url,
+    'at',
+    new Date().toLocaleString(),
+  )
+}
+
+const router = Router({
+  catch: error,
+  finally: [logger]
+});
 
 router
-	.get('/', () => new Response('intp.moe/:username'))
-	.get('/:username', (request) => Response.redirect(`https://anilist.co/user/${request.params.username}/`, 301))
-	.all('*', () => error(404));
+  .get("/", () => new Response("anilist.me/:username or intp.moe/:username"))
+  .get("/:username", (request) =>
+    Response.redirect(
+      `https://anilist.co/user/${request.params.username}/`,
+      301,
+    ),
+  )
+  .all("*", () => error(404));
 
-export default {
-	fetch: (request: Request) => router.handle(request).catch(error),
-};
+export default router;

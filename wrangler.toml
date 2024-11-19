@@ -5,6 +5,9 @@ compatibility_date = "2023-06-09"
 [placement]
 mode = "smart"
 
+[observability]
+enabled = true
+
 # # KV Namespace binding - For more information: https://developers.cloudflare.com/workers/runtime-apis/kv
 # [[kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
